@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById("pokemon-search-form")
   form.addEventListener("input", function(){renderPokemon(filterPokemon())})
   document.addEventListener("click", (e) => switchPicture(e))
+  document.addEventListener("mouseover", (e) => statAlert(e))
 })
 
 
@@ -44,7 +45,7 @@ function cardPrinter(pokemonObj){
   card.appendChild(frame)
   const text = document.createElement("h1")
   text.classList.add("center-text")
-  text.innerText = pokemonObj["name"]
+  text.innerText = pokemonObj["name"].toUpperCase()
   frame.appendChild(text)
   const pokemonImg = document.createElement("div")
   pokemonImg.classList.add("pokemon-image")
@@ -54,6 +55,9 @@ function cardPrinter(pokemonObj){
   imageData.setAttribute('data-id',pokemonObj["id"])
   imageData.src= pokemonObj["sprites"]["front"]
   pokemonImg.appendChild(imageData)
+  const stats = document.createElement("div")
+  text.appendChild(stats)
+  stats.innerHTML = `<h6><div id="stats" data-stat='${pokemonObj.id}'><p>Height: ${pokemonObj.height}<br>Weight: ${pokemonObj.weight > 250 ? "Chonky" : "Smol"}<br>Types: ${pokemonObj.types.join(", ")}<br>Abilities: ${pokemonObj.abilities.join(", ")}<br></p><p>STATS</p></div></</h6>`
 }
 
 function switchPicture(e){
@@ -65,6 +69,14 @@ function switchPicture(e){
   else
     {e.target.src=pokemonObj["sprites"]["front"]}}
 }
+
+function statAlert(e){
+  if (e.target.dataset.stat){
+  const stat = parseInt(e.target.dataset.stat)
+  const pokemonObj = POKEMON.find(pokemon => pokemon["id"]===stat)
+  const stats = [pokemonObj.name.toUpperCase(),...pokemonObj.stats.map(stat => `${stat.name}: ${stat.value}`)].join("\n")
+  alert(`${stats}`)
+}}
 
 
 //
