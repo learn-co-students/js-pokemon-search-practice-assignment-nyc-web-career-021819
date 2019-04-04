@@ -3,7 +3,7 @@ const POKEMON = [
     height: 10,
     weight: 130,
     id: 2,
-    name: "ivysaur",
+      name: "ivysaur",
     abilities: ["overgrow", "chlorophyll"],
     moves: [],
     stats: [
